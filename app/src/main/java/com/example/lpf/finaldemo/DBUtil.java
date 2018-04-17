@@ -520,6 +520,7 @@ public class DBUtil
                 String W_date = rs.getString("W_date");
                 String W_num = "数量:"+rs.getString("W_num");
                 String W_check = rs.getString("W_iffinish");
+                System.out.println(W_id+" "+W_num+" "+W_check);
                 if (W_check == null || W_check.equals("")){
                     W_check = "0";
                 }
@@ -893,10 +894,16 @@ public class DBUtil
                 String dorm_name = rs.getString("D_no");
                 String date = rs.getString("W_date").split(" ")[0];
                 String num = rs.getString("W_num");
+                String W_check = rs.getString("W_iffinish");
+                if (W_check == null || W_check.equals("")){
+                    W_check = "0";
+                }
                 String details = "数量："+num+"桶";
                 System.out.println(details);
-                item i = new item(dorm_name,date,details);
-                list.add(i);
+                if(W_check.equals("0")){
+                    item i = new item(dorm_name,date,details);
+                    list.add(i);
+                }
             }
             rs.close();
             stmt.close();
@@ -958,8 +965,16 @@ public class DBUtil
                 String date = rs.getString("W_date").split(" ")[0];;
                 String detail = "数量："+rs.getString("W_num")+"桶";
                 System.out.println(detail);
-                item i = new item("订水",date,detail);
-                list.add(i);
+                String W_check = rs.getString("W_iffinish");
+                System.out.println(W_check);
+                if (W_check == null || W_check.equals("")){
+                    W_check = "0";
+                }
+                if(W_check.equals("0")){
+                    item i = new item("订水",date,detail);
+                    list.add(i);
+                }
+
             }
             rs.close();
             stmt.close();

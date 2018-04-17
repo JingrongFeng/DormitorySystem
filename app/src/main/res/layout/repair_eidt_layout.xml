@@ -121,7 +121,7 @@
         android:layout_width="match_parent"
         android:background="@drawable/button_style"
         android:layout_height="wrap_content"
-        android:text="保存修改"
+        android:text="提交订单"
 
         android:layout_margin="8dp"
 
