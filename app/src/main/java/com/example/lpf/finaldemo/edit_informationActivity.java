@@ -372,28 +372,32 @@ public class edit_informationActivity extends AppCompatActivity {
     }
 
     private void Addselection2() {
-        for (int i = 1; i < 20; i++) {
-            selection2.add(Integer.toString(i) + "班");
+        for (int i = 1; i <= 20; i++) {
+            selection2.add(Integer.toString(i));
         }
         data.add("数学学院");
         data.add("数据科学与计算机学院");
         data.add("国际翻译学院");
         data.add("外语学院");
 
-        Hobby.add("体育");
-        Hobby.add("文学");
-        Hobby.add("音乐");
-        Hobby.add("旅行");
+        Hobby.add("电影");  //0
+        Hobby.add("音乐");  //1
+        Hobby.add("文学");  //2
+        Hobby.add("体育");  //3
+        Hobby.add("美食");  //5
+        Hobby.add("旅行");  //6
+        Hobby.add("无");    //7
         time1.add("21:00~22:00");
         time1.add("22:00~23:00");
         time1.add("23:00~00:00");
-        time1.add("00:00以后");
+        time1.add("00:00~01:00");
+        time1.add("01:00以后");
         time2.add("7:00~8:00");
         time2.add("8:00~9:00");
         time2.add("9:00~10:00");
         time2.add("10:00以后");
+        op.add("出国读研");
         op.add("国内读研");
-        op.add("出国留学");
         op.add("毕业工作");
     }
     private void loadInfo()//加载已经存在的数据
@@ -573,11 +577,101 @@ public class edit_informationActivity extends AppCompatActivity {
                         school.setText(temp.get(3));
                         major.setText(temp.get(4));
                         classnum.setText(temp.get(5));
-                        sleeptime.setText(temp.get(6));
-                        waketime.setText(temp.get(7));
-                        hobby1.setText(temp.get(8));
-                        hobby2.setText(temp.get(9));
-                        hobby3.setText(temp.get(10));
+                        String sTime = temp.get(6);
+                        switch(sTime){
+                            case "0":
+                                sleeptime.setText("21:00~22:00");break;
+                            case "1":
+                                sleeptime.setText("22:00~23:00");break;
+                            case "2":
+                                sleeptime.setText("23:00~00:00");break;
+                            case "3":
+                                sleeptime.setText("00:00~01:00");break;
+                            case "4":
+                                sleeptime.setText("01:00以后");break;
+                            default:
+                                sleeptime.setText("01:00以后");
+                                System.out.println("就寝时间错误");break;
+                        }
+                        String wTime = temp.get(7);
+                        switch(wTime){
+                            case "0":
+                                waketime.setText("7:00~8:00");break;
+                            case "1":
+                                waketime.setText("8:00~9:00");break;
+                            case "2":
+                                waketime.setText("9:00~10:00");break;
+                            case "3":
+                                waketime.setText("10:00以后");break;
+                            default:
+                                waketime.setText("10:00以后");
+                                System.out.println("起床时间错误");break;
+                        }
+                        System.out.println("作息时间："+sTime+" "+wTime);
+                        String hob1, hob2, hob3;
+                        hob1 = temp.get(8);
+                        hob2 = temp.get(9);
+                        hob3 = temp.get(10);
+                        switch(hob1){
+                            case "0":
+                                hobby1.setText("电影");break;
+                            case "1":
+                                hobby1.setText("音乐");break;
+                            case "2":
+                                hobby1.setText("文学");break;
+                            case "3":
+                                hobby1.setText("体育");break;
+                            case "4":
+                                hobby1.setText("美食");break;
+                            case "5":
+                                hobby1.setText("旅行");break;
+                            case "6":
+                                hobby1.setText("游戏");break;
+                            case "7":
+                                hobby1.setText("无");break;
+                            default:
+                                hobby1.setText("无");break;
+                        }
+                        switch(hob2){
+                            case "0":
+                                hobby2.setText("电影");break;
+                            case "1":
+                                hobby2.setText("音乐");break;
+                            case "2":
+                                hobby2.setText("文学");break;
+                            case "3":
+                                hobby2.setText("体育");break;
+                            case "4":
+                                hobby2.setText("美食");break;
+                            case "5":
+                                hobby2.setText("旅行");break;
+                            case "6":
+                                hobby2.setText("游戏");break;
+                            case "7":
+                                hobby2.setText("无");break;
+                            default:
+                                hobby2.setText("无");break;
+                        }
+                        switch(hob3){
+                            case "0":
+                                hobby3.setText("电影");break;
+                            case "1":
+                                hobby3.setText("音乐");break;
+                            case "2":
+                                hobby3.setText("文学");break;
+                            case "3":
+                                hobby3.setText("体育");break;
+                            case "4":
+                                hobby3.setText("美食");break;
+                            case "5":
+                                hobby3.setText("旅行");break;
+                            case "6":
+                                hobby3.setText("游戏");break;
+                            case "7":
+                                hobby3.setText("无");break;
+                            default:
+                                hobby3.setText("无");break;
+                        }
                         plan.setText(temp.get(11));
                         dormname.setText(temp.get(12));
                         dor_no.setText(temp.get(13));

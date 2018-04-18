@@ -44,6 +44,7 @@ public class Notification_EditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.notification_layout);
         account = getIntent().getStringExtra("a_account");
         objid = getIntent().getStringExtra("building_id");

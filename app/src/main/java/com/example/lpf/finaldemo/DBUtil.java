@@ -23,9 +23,9 @@ public class DBUtil
 {
     private static Connection getSQLConnection()
     {
-        String userName = "learn_sql";  //默认用户名
-        String userPwd = "learn_sql2017";   //密码
-        String url="jdbc:jtds:sqlserver://rm-learnsql2017.sqlserver.rds.aliyuncs.com:3433;DatabaseName=AndroidProj";
+        String userName = "teambaoyan";  //默认用户名
+        String userPwd = "TEAMbaoyan3";   //密码
+        String url="jdbc:jtds:sqlserver://rm-wz9k3236v3933nqsp3o.sqlserver.rds.aliyuncs.com:3433;DatabaseName=dor";
         Connection dbConn = null;
         try
         {
@@ -102,6 +102,7 @@ public class DBUtil
             ResultSet rs1 = stmt1.executeQuery(sql);
             if(rs1.next())
             {
+                System.out.println("宿舍对应成功");
                 building_id = rs1.getString("D_buildingId");
                 d_no = rs1.getString("D_no");
             }
@@ -114,6 +115,7 @@ public class DBUtil
             Statement stmt2 = conn2.createStatement();
             ResultSet rs2 = stmt2.executeQuery(sql);
             if(rs2.next()){
+                System.out.println("宿舍楼对应成功");
                 building_name=rs2.getString("B_name");
             }
             result.add(building_name);//12  宿舍楼名称

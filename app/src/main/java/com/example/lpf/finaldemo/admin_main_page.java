@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class admin_main_page extends AppCompatActivity {
-
+    private boolean dormAssign = false;
     private String account="";
     private String Admin_name="";
     private String buildingName="";
@@ -149,10 +150,18 @@ public class admin_main_page extends AppCompatActivity {
         showStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(admin_main_page.this,DormListActivity.class);
-                intent.putExtra("a_account",account);
-                //需要添加传递的参数
-                startActivity(intent);
+                if(dormAssign == false){
+                    Toast.makeText(admin_main_page.this, "还未分配宿舍", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent =new Intent(admin_main_page.this,DormListActivity.class);
+                    intent.putExtra("a_account",account);
+                    //需要添加传递的参数
+                    startActivity(intent);
+                }
+//                Intent intent =new Intent(admin_main_page.this,DormListActivity.class);
+//                intent.putExtra("a_account",account);
+//                //需要添加传递的参数
+//                startActivity(intent);
             }
         });
         release_notifycation.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +176,13 @@ public class admin_main_page extends AppCompatActivity {
         adjustDormitory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(admin_main_page.this,RoomUpdateActivity.class);
-                intent.putExtra("a_account",account);
-                startActivity(intent);
+                if(dormAssign == false){
+                    Toast.makeText(admin_main_page.this, "还未分配宿舍", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent =new Intent(admin_main_page.this,RoomUpdateActivity.class);
+                    intent.putExtra("a_account",account);
+                    startActivity(intent);
+                }
             }
         });
     }

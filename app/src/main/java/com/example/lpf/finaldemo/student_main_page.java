@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.lemonsoft.lemonbubble.LemonBubble;
 
@@ -215,28 +216,42 @@ public class student_main_page extends AppCompatActivity {
         show_dorm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(student_main_page.this,DormInfoActivity.class);
-                intent.putExtra("role","student");
-                intent.putExtra("dorm_id",dormId);
-                startActivity(intent);
+                if(dor_no.length() > 3){
+                    Toast.makeText(student_main_page.this, "还未分配宿舍", Toast.LENGTH_SHORT).show();
+                } else{
+                    Intent intent =new Intent(student_main_page.this,DormInfoActivity.class);
+                    intent.putExtra("role","student");
+                    intent.putExtra("dorm_id",dormId);
+                    startActivity(intent);
+                }
             }
         });
         repair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(student_main_page.this,repair_edit.class);
-                intent.putExtra("stu_account",account);
-                intent.putExtra("dorm_id",dormId);
-                startActivity(intent);
+                if(dor_no.length() > 3){
+                    Toast.makeText(student_main_page.this, "还未分配宿舍", Toast.LENGTH_SHORT).show();
+                } else{
+                    Intent intent =new Intent(student_main_page.this,repair_edit.class);
+                    intent.putExtra("stu_account",account);
+                    intent.putExtra("dorm_id",dormId);
+                    startActivity(intent);
+                }
+
             }
         });
         order_water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(student_main_page.this,Order_editActivity.class);
-                intent.putExtra("stu_account",account);
-                intent.putExtra("dorm_id",dormId);
-                startActivity(intent);
+                if(dor_no.length() > 3){
+                    Toast.makeText(student_main_page.this, "还未分配宿舍", Toast.LENGTH_SHORT).show();
+                } else{
+                    Intent intent =new Intent(student_main_page.this,Order_editActivity.class);
+                    intent.putExtra("stu_account",account);
+                    intent.putExtra("dorm_id",dormId);
+                    startActivity(intent);
+                }
+
             }
         });
         edit_information.setOnClickListener(new View.OnClickListener() {
