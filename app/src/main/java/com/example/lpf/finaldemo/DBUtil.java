@@ -11,8 +11,10 @@ import java.util.ArrayList;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 
 /**
@@ -60,7 +62,8 @@ public class DBUtil
         String plan = "";
         String building_id= "";//宿舍楼id
         String building_name="";//宿舍楼号
-        String sql = "select * from student where S_account = '"+account+"'";
+        String sql = "";
+        sql="select * from student where S_account = '"+account+"'";
         try {
             Connection conn = getSQLConnection();
             Statement stmt = conn.createStatement();
@@ -976,7 +979,6 @@ public class DBUtil
                     item i = new item("订水",date,detail);
                     list.add(i);
                 }
-
             }
             rs.close();
             stmt.close();
@@ -992,4 +994,201 @@ public class DBUtil
         }
         return list;
     }
+
+    public static Vector<String> Clusterdata()
+    {
+        Vector<String> indata = new Vector();
+        String sql = "select * from student where S_password = '123456'";
+        try {
+            Connection conn = getSQLConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next())
+            {
+                String info="";
+                info+=rs.getString("S_sleeptime")+","+rs.getString("S_waketime")+","+rs.getString("S_hobby1")+","
+                        +rs.getString("S_hobby2")+","+rs.getString("S_hobby3")+","+rs.getString("S_plan")+","+rs.getString("S_name")+","+rs.getString("S_account");
+                indata.add(info);
+                //System.out.println(info);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+            System.out.println("查询学生信息成功");
+            System.out.println("-----------------------");
+
+        }catch(SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("查询失败");
+            System.out.println("-----------------------");
+        }
+        return indata;
+    }
+
+    public static void dormtoDB(ArrayList[] distributeResult)
+    {
+        try {
+            Connection conn = getSQLConnection();
+            Statement stmt = conn.createStatement();
+            String dno="";
+            for (int ii = 0; ii < distributeResult.length; ii++) {
+                ArrayList tempV = distributeResult[ii];
+                System.out.println("-----------Cluster" + ii + "---------");
+                Iterator iter = tempV.iterator();
+                while (iter.hasNext()) {
+                    DataPoint dpTemp = (DataPoint) iter.next();
+                    System.out.println(dpTemp.getPointName());
+               }
+            }
+            String stu1="nl";
+            String stu2="nl";
+            String stu3="nl";
+            String stu4="nl";
+            String stu11="nl";
+            String stu22="nl";
+            String stu33="nl";
+            String stu44="nl";
+            int i=1001;
+            ArrayList<DataPoint> outlier=new ArrayList();
+            ArrayList<DataPoint> toAdd=new ArrayList();
+            for (int ii = 0; ii < distributeResult.length; ii++) {
+                ArrayList tempV = distributeResult[ii];
+                //System.out.println("-----------Cluster" + ii + "---------");
+                Iterator iter = tempV.iterator();
+                while (iter.hasNext()) {
+                    toAdd.add((DataPoint)iter.next());
+                    if(toAdd.size()==4){
+                        stu1=toAdd.get(0).getPointName();
+                        stu2=toAdd.get(1).getPointName();
+                        stu3=toAdd.get(2).getPointName();
+                        stu4=toAdd.get(3).getPointName();
+                        stu11=toAdd.get(0).getAccount();
+                        stu22=toAdd.get(1).getAccount();
+                        stu33=toAdd.get(2).getAccount();
+                        stu44=toAdd.get(3).getAccount();
+                        toAdd.clear();
+                        int dnum=i-1000+100;
+                        dno=String.valueOf(dnum);
+                        String sqld = String.format("UPDATE Dormitory SET D_no = '%s',D_stu1 = '%s',D_stu2 = '%s',D_stu3 = '%s',D_stu4 = '%s'" +
+                                "where D_id = '%d';", dno, stu11,stu22,stu33,stu44,i);
+                        String sqls = String.format("UPDATE Student SET S_dormId = '%d' where S_account ='%s' or S_account ='%s' or S_account ='%s' or " +
+                                "S_account ='%s';", i, stu11,stu22,stu33,stu44);
+                        System.out.println(sqld);
+                        System.out.println(sqls);
+                        dno="";
+                        stu1="nl";
+                        stu2="nl";
+                        stu3="nl";
+                        stu4="nl";
+                        stu11="nl";
+                        stu22="nl";
+                        stu33="nl";
+                        stu44="nl";
+                        stmt.executeUpdate(sqld);
+                        stmt.executeUpdate(sqls);
+                        i = i+1;
+                    }
+                }
+                if(toAdd.size()>0){
+                    for(int l=0;l<toAdd.size();l++){
+                        outlier.add((DataPoint)toAdd.get(l));
+                    }
+                }
+                toAdd.clear();
+                dno="";
+                stu1="nl";
+                stu2="nl";
+                stu3="nl";
+                stu4="nl";
+                stu11="nl";
+                stu22="nl";
+                stu33="nl";
+                stu44="nl";
+            }
+            Iterator iter1 = outlier.iterator();
+            while (iter1.hasNext()) {
+                toAdd.add((DataPoint)iter1.next());
+                if(toAdd.size()==4){
+                    stu1=toAdd.get(0).getPointName();
+                    stu2=toAdd.get(1).getPointName();
+                    stu3=toAdd.get(2).getPointName();
+                    stu4=toAdd.get(3).getPointName();
+                    stu11=toAdd.get(0).getAccount();
+                    stu22=toAdd.get(1).getAccount();
+                    stu33=toAdd.get(2).getAccount();
+                    stu44=toAdd.get(3).getAccount();
+                    toAdd.clear();
+                    int dnum=i-1000+100;
+                    dno=String.valueOf(dnum);
+                    String sqld = String.format("UPDATE Dormitory SET D_no = '%s',D_stu1 = '%s',D_stu2 = '%s',D_stu3 = '%s',D_stu4 = '%s'" +
+                            "where D_id = '%d';", dno, stu11,stu22,stu33,stu44,i);
+                    String sqls = String.format("UPDATE Student SET S_dormId = '%d' where S_account ='%s' or S_account ='%s' or S_account ='%s' or " +
+                            "S_account ='%s';", i, stu11,stu22,stu33,stu44);
+                    System.out.println(sqls);
+                    System.out.println(sqld);
+                    dno="";
+                    stu1="nl";
+                    stu2="nl";
+                    stu3="nl";
+                    stu4="nl";
+                    stu11="nl";
+                    stu22="nl";
+                    stu33="nl";
+                    stu44="nl";
+                    stmt.executeUpdate(sqld);
+                    stmt.executeUpdate(sqls);
+                    i = i+1;
+                }
+            }
+            if(toAdd.size()>0){
+                if(toAdd.size()>=1){
+                    stu1=toAdd.get(0).getPointName();
+                    stu11=toAdd.get(0).getAccount();
+                }
+                if(toAdd.size()>=2){
+                    stu1=toAdd.get(0).getPointName();
+                    stu2=toAdd.get(1).getPointName();
+                    stu11=toAdd.get(0).getAccount();
+                    stu22=toAdd.get(1).getAccount();
+                }
+                if(toAdd.size()>=3){
+                    stu1=toAdd.get(0).getPointName();
+                    stu2=toAdd.get(1).getPointName();
+                    stu3=toAdd.get(2).getPointName();
+                    stu11=toAdd.get(0).getAccount();
+                    stu22=toAdd.get(1).getAccount();
+                    stu33=toAdd.get(2).getAccount();
+                }
+                int dnum=i-1000+100;
+                dno=String.valueOf(dnum);
+                String sqld = String.format("UPDATE Dormitory SET D_no = '%s',D_stu1 = '%s',D_stu2 = '%s',D_stu3 = '%s',D_stu4 = '%s'" +
+                        "where D_id = '%d';", dno, stu11,stu22,stu33,stu44,i);
+                String sqls = String.format("UPDATE Student SET S_dormId = '%d' where S_account ='%s' or S_account ='%s' or S_account ='%s' or " +
+                        "S_account ='%s';", i, stu11,stu22,stu33,stu44);
+                System.out.println(sqld);
+                System.out.println(sqls);
+                dno="";
+                stu1="nl";
+                stu2="nl";
+                stu3="nl";
+                stu4="nl";
+                stu11="nl";
+                stu22="nl";
+                stu33="nl";
+                stu44="nl";
+                stmt.executeUpdate(sqld);
+                stmt.executeUpdate(sqls);
+                i = i+1;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("e");
+            System.out.println("分配更新失败");
+            System.out.println("-----------------------");
+        }
+    }
+
+
 }
