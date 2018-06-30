@@ -30,7 +30,10 @@ import java.util.Map;
 import java.util.Vector;
 
 public class admin_main_page extends AppCompatActivity {
-    private boolean dormAssign = false;    //是否分配宿舍的按钮
+// master
+    private boolean dormAssign = false;    //是否分配宿舍的按
+//    private boolean dormAssign = false;
+// master
     private String account="";
     private String Admin_name="";
     private String buildingName="";
@@ -234,6 +237,7 @@ public class admin_main_page extends AppCompatActivity {
                     intent.putExtra("a_account",account);
                     startActivity(intent);
                 }
+// master
             }
         });
         distributeDorm.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +250,8 @@ public class admin_main_page extends AppCompatActivity {
                 {
                     Toast.makeText(admin_main_page.this,"宿舍已分配，请勿再次执行",Toast.LENGTH_SHORT).show();
                 }
+
+// master
             }
         });
 
